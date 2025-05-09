@@ -3,6 +3,7 @@ import "dotenv/config";
 
 import taskRoute from "./routes/taskRoute.js";
 import authRoute from "./routes/authRoute.js";
+import tagRoute from "./routes/tagRoute.js";
 import db from "./db.js";
 import authorize from "./middlewares/authMiddleware.js";
 
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 // Import routes
 app.use("/api/auth", authRoute)
 app.use("/api/tasks", taskRoute)
+app.use("/api/tags", tagRoute)
 
 app.listen(PORT, () => {
     // Connect to the database
