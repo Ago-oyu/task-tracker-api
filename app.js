@@ -39,7 +39,13 @@ app.listen(PORT, () => {
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
 
-        CREATE TYPE task_status AS ENUM('todo', 'in-progress', 'done');
+        DO $$
+            BEGIN
+                IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'task_status') THEN
+                    CREATE TYPE task_status AS ENUM('todo', 'in-progress', 'done');
+                END IF;
+        END $$;
+
 
         CREATE TABLE IF NOT EXISTS tasks (
             id SERIAL PRIMARY KEY,
