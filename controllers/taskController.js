@@ -5,7 +5,7 @@ const getAllTasks = async (req, res) => {
 
 
     try {
-        const tasks = await db.query("SELECT * FROM tasks where user_id = $1 AND ($2::int IS NULL OR tag_id = $2)", [req.user.id, tagId]);
+        const tasks = await db.query("SELECT * FROM tasks where user_id = $1 AND ($2::int IS NULL OR tag_id = $2)", [req.user.userId, tagId]);
         res.status(200).json({
             success: true,
             data: tasks.rows
