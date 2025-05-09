@@ -35,3 +35,30 @@ export const createTag = async (req, res) => {
 
     }
 }
+
+export const updateTag = async (req, res) => {
+    const { tagId } = req.params
+    const { name } = req.body
+
+    try {
+        const tag = await db.query('SELECT * FROM tags WHERE id = $1', [tagId])
+        if (tag.rowCount == 0) {
+            res.status(404).json({
+                success: false,
+                message: 'tag not found'
+            })
+        }
+
+        await db.query('UPDATE tags SET name = $1, updated_at = $2 WHERE id = $3', [name, new Date().toISOString(), tagId])
+
+        res.status(204).json({
+            success: true
+        })
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: false,
+            message: "Internal Server error",
+        })
+    }
+}
